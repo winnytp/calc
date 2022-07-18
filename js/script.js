@@ -22,7 +22,7 @@ let operations = {
 function clickNumber() {
     let number = this.dataset.number;
 
-    if (number === '0' && operations.current === null) { // If user selects "0" while input is already "0", then do nothing. NOTHING AT ALL!
+    if (number === '0' && !operations.current) { // If user selects "0" while input is already "0", then do nothing. NOTHING AT ALL!
         return console.log('ZERO! I did nothing.');
     }
 
@@ -58,7 +58,11 @@ function clickOperator() { // The below IF statements check what stage of the eq
     if (operations.last != null && operations.operator != null && operations.current != null) {
         clickEquals();
         operations.operator = operator;
-        operations.inProgress = true;
+        return operations.inProgress = true;
+    }
+
+    if (operations.inProgress && operator) {
+        operations.operator = operator;
     }
 
     console.log(operations);
