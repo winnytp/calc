@@ -22,11 +22,11 @@ let operations = {
 function clickNumber() {
     let number = this.dataset.number;
 
-    if (number === '0' && operations.current === null) {
+    if (number === '0' && operations.current === null) { // If user selects "0" while input is already "0", then do nothing. NOTHING AT ALL!
         return console.log('ZERO! I did nothing.');
     }
 
-    if (operations.inProgress) {
+    if (operations.inProgress) { // Checks if last button pressed was an operator (this flag is set in very specific circumstances and only when needed...)
         lowerDisplay.textContent = number;
         writeUpper();
         updateOperations('current', number);
@@ -38,20 +38,20 @@ function clickNumber() {
     console.log(operations.current);
 }
 
-function clickOperator() {
+function clickOperator() { // The below IF statements check what stage of the equation the user is on. It then runs the code most suitable at the current stage.
     let operator = this.dataset.operator;
 
     if (operations.current != null && operations.last === null) {
         operations.last = operations.current;
         operations.operator = operator;
         operations.current = null;
-        lowerDisplay.innerHTML = "0";
+        lowerDisplay.textContent = "0";
         return writeUpper();
     }
 
     if (operations.last != null && operations.operator === null && operations.current === null) {
         operations.operator = operator;
-        lowerDisplay.innerHTML = "0";
+        lowerDisplay.textContent = "0";
         return writeUpper();
     }
 
@@ -68,8 +68,8 @@ function clickEquals() {
     if (operations.last && operations.operator != null) { // If there is a operator specified, then run the equation! GO GO GO!
         let answer = doOperation();
         console.log(answer);
-        upperDisplay.innerHTML += ` ${operations.current} =`;
-        lowerDisplay.innerHTML = answer;
+        upperDisplay.textContent += ` ${operations.current} =`;
+        lowerDisplay.textContent = answer;
         operations.current = null;
         operations.last = String(answer);
         operations.operator = null;
@@ -97,20 +97,20 @@ function doOperation() {
 }
 
 function clear() {
-    lowerDisplay.innerHTML = "0";
-    upperDisplay.innerHTML = "(empty)";
+    lowerDisplay.textContent = "0";
+    upperDisplay.textContent = "(empty)";
     for (let key in operations) { operations[key] = null; } // Change operations object keys to "null" value
     console.log(operations);
 }
 
 function writeLower(string) {
-    lowerDisplay.innerHTML === "0" ? lowerDisplay.innerHTML = string : lowerDisplay.innerHTML += string;
+    lowerDisplay.textContent === "0" ? lowerDisplay.textContent = string : lowerDisplay.textContent += string;
 }
 
 function writeUpper() {
     let number = operations.last;
     let operator = operations.operator;
-    upperDisplay.innerHTML = `${number} ${operator}`;
+    upperDisplay.textContent = `${number} ${operator}`;
 }
 
 function updateOperations(key, value) {
