@@ -73,9 +73,9 @@ function clickEquals() {
 }
 
 function doOperation() {
-    operator = operations.operator;
-    a = Number(operations.last);
-    b = Number(operations.current);
+    let operator = operations.operator;
+    let a = Number(operations.last);
+    let b = Number(operations.current);
     if (operator === "+") return a + b; // plus
     if (operator === "-") return a - b; // minus
     if (operator === "÷") return a / b; // divide
