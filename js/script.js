@@ -22,6 +22,10 @@ let operations = {
 function clickNumber() {
     let number = this.dataset.number;
 
+    if (number === '0' && operations.current === null) {
+        return console.log('ZERO! I did nothing.');
+    }
+
     if (operations.inProgress) {
         lowerDisplay.textContent = number;
         writeUpper();
@@ -61,7 +65,7 @@ function clickOperator() {
 }
 
 function clickEquals() {
-    if (operations.last) {
+    if (operations.last && operations.operator != null) { // If there is a operator specified, then run the equation! GO GO GO!
         let answer = doOperation();
         console.log(answer);
         upperDisplay.innerHTML += ` ${operations.current} =`;
@@ -70,12 +74,21 @@ function clickEquals() {
         operations.last = String(answer);
         operations.operator = null;
     }
+
+    if (!operations.operator) return; // If no operator in the pipeline, do nothing!
 }
 
 function doOperation() {
     let operator = operations.operator;
     let a = Number(operations.last);
     let b = Number(operations.current);
+
+    if (operations.current === null) { // If no operand value is specified, assume "0" is the input (by default)
+        b = "0";
+        operations.current = "0";
+    }
+
+    operations.current === null ? b = '0' : void(0);
     if (operator === "+") return a + b; // plus
     if (operator === "-") return a - b; // minus
     if (operator === "÷") return a / b; // divide
