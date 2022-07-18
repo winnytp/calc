@@ -21,6 +21,7 @@ html, body {
 #calculator {
     width: 22.5%;
     max-width: 375px;
+    min-width: 285px;
     aspect-ratio: 2 / 3.5;
     background-color: white;
     border-radius: 12px;
