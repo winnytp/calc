@@ -61,8 +61,9 @@ function clickOperator() { // The below IF statements check what stage of the eq
         return operations.inProgress = true;
     }
 
-    if (operations.inProgress && operator) {
+    if (operations.operator && !operations.current) { // when pressing 2 operators in succession
         operations.operator = operator;
+        !operations.inProgress ? writeUpper() : void(0);
     }
 
     console.log(operations);
