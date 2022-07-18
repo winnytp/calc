@@ -16,10 +16,19 @@ let operations = {
     current: null,
     operator: null,
     last: null,
+    inProgress: false,
 }
 
 function clickNumber() {
     let number = this.dataset.number;
+
+    if (operations.inProgress) {
+        lowerDisplay.textContent = number;
+        writeUpper();
+        updateOperations('current', number);
+        return operations.inProgress = false;
+    }
+
     updateOperations('current', number);
     writeLower(number);
     console.log(operations.current);
@@ -27,21 +36,39 @@ function clickNumber() {
 
 function clickOperator() {
     let operator = this.dataset.operator;
-    if (operations.current != null) {
+
+    if (operations.current != null && operations.last === null) {
         operations.last = operations.current;
         operations.operator = operator;
         operations.current = null;
         lowerDisplay.innerHTML = "0";
-        writeUpper();
+        return writeUpper();
     }
+
+    if (operations.last != null && operations.operator === null && operations.current === null) {
+        operations.operator = operator;
+        lowerDisplay.innerHTML = "0";
+        return writeUpper();
+    }
+
+    if (operations.last != null && operations.operator != null && operations.current != null) {
+        clickEquals();
+        operations.operator = operator;
+        operations.inProgress = true;
+    }
+
     console.log(operations);
 }
 
 function clickEquals() {
     if (operations.last) {
-        console.log(doOperation());
+        let answer = doOperation();
+        console.log(answer);
         upperDisplay.innerHTML += ` ${operations.current} =`;
-        lowerDisplay.innerHTML = doOperation();
+        lowerDisplay.innerHTML = answer;
+        operations.current = null;
+        operations.last = String(answer);
+        operations.operator = null;
     }
 }
 
