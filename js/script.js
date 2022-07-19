@@ -1,19 +1,5 @@
 console.log("Calculator app");
 
-const numbers = document.querySelectorAll('.number');
-const upperDisplay = document.getElementById('upper-display-text');
-const lowerDisplay = document.getElementById('lower-display-text');
-const allClear = document.getElementById('all-clear');
-const operators = document.querySelectorAll('.operator');
-const equals = document.getElementById('equals');
-const decimal = document.getElementById('decimal');
-
-numbers.forEach(node => node.addEventListener('click', clickNumber));
-operators.forEach(node => node.addEventListener('click', clickOperator));
-equals.addEventListener('click', clickEquals);
-allClear.addEventListener('click', clear);
-decimal.addEventListener('click', clickDecimal);
-
 let operations = {
     current: null,
     operator: null,
@@ -106,6 +92,25 @@ function clickDecimal() {
     }
 }
 
+function clickClear() {
+    if (!operations.current) return;
+
+    if (operations.current.length === 1) {
+        operations.current = null;
+        return lowerDisplay.textContent = "0";
+    };
+
+    let numArray = Array.from(operations.current);
+
+    if (numArray.length > 1) {
+        numArray.splice(-1, 1);
+        let newNumber = numArray.join('');
+        console.log(newNumber);
+        operations.current = newNumber;
+        lowerDisplay.textContent = operations.current;
+    }
+}
+
 function doOperation() {
     let operator = operations.operator;
     let a = Number(operations.last);
@@ -125,7 +130,7 @@ function doOperation() {
     if (operator === "%") return a % b; // modulo
 }
 
-function clear() {
+function allClear() {
     lowerDisplay.textContent = "0";
     upperDisplay.textContent = "(empty)";
     for (let key in operations) { operations[key] = null; } // Change operations object keys to "null" value
@@ -145,3 +150,19 @@ function writeUpper() {
 function updateOperations(key, value) {
     if (key === 'current') operations[key] === null ? operations[key] = value : operations[key] += value;
 }
+
+const numbers = document.querySelectorAll('.number');
+const upperDisplay = document.getElementById('upper-display-text');
+const lowerDisplay = document.getElementById('lower-display-text');
+const allClearBtn = document.getElementById('all-clear');
+const operators = document.querySelectorAll('.operator');
+const equals = document.getElementById('equals');
+const decimal = document.getElementById('decimal');
+const clearBtn = document.getElementById('clear');
+
+numbers.forEach(node => node.addEventListener('click', clickNumber));
+operators.forEach(node => node.addEventListener('click', clickOperator));
+equals.addEventListener('click', clickEquals);
+allClearBtn.addEventListener('click', allClear);
+decimal.addEventListener('click', clickDecimal);
+clearBtn.addEventListener('click', clickClear);
