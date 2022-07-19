@@ -3,34 +3,43 @@ console.log("Calculator app");
 const numbers = document.querySelectorAll('.number');
 const upperDisplay = document.getElementById('upper-display-text');
 const lowerDisplay = document.getElementById('lower-display-text');
-const allClearButton = document.getElementById('all-clear');
+const allClear = document.getElementById('all-clear');
 const operators = document.querySelectorAll('.operator');
 const equals = document.getElementById('equals');
+const decimal = document.getElementById('decimal');
 
 numbers.forEach(node => node.addEventListener('click', clickNumber));
 operators.forEach(node => node.addEventListener('click', clickOperator));
 equals.addEventListener('click', clickEquals);
-allClearButton.addEventListener('click', clear);
+allClear.addEventListener('click', clear);
+decimal.addEventListener('click', clickDecimal);
 
 let operations = {
     current: null,
     operator: null,
     last: null,
-    inProgress: false,
+    inProgress: null,
+    allowDecimal: true,
 }
 
 function clickNumber() {
     let number = this.dataset.number;
 
-    if (number === '0' && !operations.current) { // If user selects "0" while input is already "0", then do nothing. NOTHING AT ALL!
-        return console.log('ZERO! I did nothing.');
+    if (number === "0") {
+        if (operations.current === "0") return;
+        if (operations.operator && !operations.current) {
+            updateOperations('current', number);
+            lowerDisplay.textContent = operations.current;
+            return writeUpper();
+        }
+        if (!operations.current) return;
     }
 
     if (operations.inProgress) { // Checks if last button pressed was an operator (this flag is set in very specific circumstances and only when needed...)
-        lowerDisplay.textContent = number;
-        writeUpper();
         updateOperations('current', number);
-        return operations.inProgress = false;
+        lowerDisplay.textContent = operations.current;
+        writeUpper();
+        return operations.inProgress = null;
     }
 
     updateOperations('current', number);
@@ -45,12 +54,14 @@ function clickOperator() {
         operations.last = operations.current;
         operations.operator = operator;
         operations.current = null;
+        operations.allowDecimal = true;
         lowerDisplay.textContent = "0";
         return writeUpper();
     }
 
     if (operations.last != null && operations.operator === null && operations.current === null) {
         operations.operator = operator;
+        operations.allowDecimal = true;
         lowerDisplay.textContent = "0";
         return writeUpper();
     }
@@ -58,6 +69,7 @@ function clickOperator() {
     if (operations.last != null && operations.operator != null && operations.current != null) {
         clickEquals();
         operations.operator = operator;
+        operations.allowDecimal = true;
         return operations.inProgress = true;
     }
 
@@ -80,6 +92,17 @@ function clickEquals() {
         operations.current = null;
         operations.last = String(answer);
         operations.operator = null;
+    }
+}
+
+function clickDecimal() {
+    if (operations.allowDecimal === false) return;
+    if (!operations.current && operations.inProgress === true) return;
+
+    if (operations.current !== Math.floor(operations.current)) {
+        operations.current = `${Math.floor(operations.current)}.`;
+        lowerDisplay.textContent = operations.current;
+        operations.allowDecimal = false;
     }
 }
 
