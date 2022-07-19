@@ -38,7 +38,7 @@ function clickNumber() {
     console.log(operations.current);
 }
 
-function clickOperator() { // The below IF statements check what stage of the equation the user is on. It then runs the code most suitable at the current stage.
+function clickOperator() {
     let operator = this.dataset.operator;
 
     if (operations.current != null && operations.last === null) {
@@ -70,7 +70,9 @@ function clickOperator() { // The below IF statements check what stage of the eq
 }
 
 function clickEquals() {
-    if (operations.last && operations.operator != null) { // If there is a operator specified, then run the equation! GO GO GO!
+    if (!operations.operator || operations.inProgress === true) return; // If no operator in pipeline, do nothing
+
+    if (operations.last && operations.operator != null) { // If operator is specified, run equation
         let answer = doOperation();
         console.log(answer);
         upperDisplay.textContent += ` ${operations.current} =`;
@@ -79,8 +81,6 @@ function clickEquals() {
         operations.last = String(answer);
         operations.operator = null;
     }
-
-    if (!operations.operator) return; // If no operator in the pipeline, do nothing!
 }
 
 function doOperation() {
@@ -88,12 +88,13 @@ function doOperation() {
     let a = Number(operations.last);
     let b = Number(operations.current);
 
-    if (operations.current === null) { // If no operand value is specified, assume "0" is the input (by default)
-        b = "0";
-        operations.current = "0";
+    console.log(b);
+
+    if (operations.current === null) { // If no operand value specified, assume "0" is the input (default)
+        b = 0;
+        operations.current = 0;
     }
 
-    operations.current === null ? b = '0' : void(0);
     if (operator === "+") return a + b; // plus
     if (operator === "-") return a - b; // minus
     if (operator === "÷") return a / b; // divide
