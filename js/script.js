@@ -28,6 +28,8 @@ function clickNumber() {
         return operations.inProgress = null;
     }
 
+    if (!operations.operator && operations.last) return;
+
     updateOperations('current', number);
     writeLower(number);
     console.log(operations.current);
