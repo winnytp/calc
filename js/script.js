@@ -38,6 +38,14 @@ function clickNumber() {
 function clickOperator() {
     let operator = this.dataset.operator;
 
+    if (!operations.current && !operations.operator && !operations.last) {
+        operations.operator = operator;
+        operations.current = null;
+        operations.last = "0";
+        operations.inProgress;
+        return writeUpper();
+    }
+
     if (operations.current != null && operations.last === null) {
         operations.last = operations.current;
         operations.operator = operator;
@@ -63,7 +71,7 @@ function clickOperator() {
 
     if (operations.operator && !operations.current) { // when pressing 2 operators in succession
         operations.operator = operator;
-        !operations.inProgress ? writeUpper() : void(0);
+        if (!operations.inProgress) return writeUpper();
     }
 
     console.log(operations);
