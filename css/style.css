@@ -1,10 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Edu+VIC+WA+NT+Beginner:wght@400;500;600;700&display=swap');
+
 * {
-    font-family: sans-serif;
+    font-family: "Edu VIC WA NT Beginner", sans-serif;
 }
 
 html, body {
     margin: 0;
     padding: 0;
+}
+
+h1, #footer > p {
+    font-family: "Edu VIC WA NT Beginner", sans-serif;
+    font-weight: 400;
+}
+
+#footer > p {
+    color: rgba(0, 0, 0, 0.35);
+}
+
+#footer {
+    margin: 12px 0;
 }
 
 #container {
