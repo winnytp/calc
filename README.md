@@ -1,8 +1,6 @@
-# Calculator 🟰
+# Calculator
 
-Simple calculator app written in vanilla Javascript.
-
-[View demo.](https://winnytp.github.io/calculator/)
+Simple calculator app written in plain Javascript [(view demo)](https://winnytp.github.io/calculator/).
 
 ## Languages
 
