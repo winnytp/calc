@@ -85,6 +85,7 @@ function clickEquals() {
 
 function clickDecimal() {
     if (operations.allowDecimal === false) return;
+    if (!operations.operator && operations.last) return;
     if (!operations.current && operations.inProgress === true) return;
 
     if (operations.current !== Math.floor(operations.current)) {
