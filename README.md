@@ -14,6 +14,6 @@ This app was made using the following languages:
 
 Outstanding issues that have yet to be fixed:
 
-1. Operations with large values (or lots of decimals) will overflow the calculator screen.
-2. Inputting a empty decimal (e.g "3.0") will write that value to screen. Really, it should round to "3", not "3.0".
-3. Javascript rounding is sometimes a bit, off... You'll see this if you use floating point operations.
+1. Large numbers result in screen overflow. Try `888 ÷ 9` as an example.
+2. Empty decimals such as `1.00` should convert to `1`.
+3. Floating point precision is not perfect. Try `0.1 - 0.0236` as an example.
