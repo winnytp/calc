@@ -129,6 +129,11 @@ h1, #footer > p {
     border-radius: 50%;
     color: rgba(0, 0, 0, 0.5);
     background-color: rgba(0, 0, 0, 0);
+    transition: transform 0.1s ease-in;
+}
+
+.row > button:active {
+    transform: scale(0.92);
 }
 
 .row > button:hover {
